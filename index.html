@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jadwal Pintar</title>
+
+  <meta name="theme-color" content="#16a34a">
+
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+  <header class="app-header">
+    <div class="header-content">
+      <h1>📋 Jadwal Pintar</h1>
+      <p>Prioritaskan yang paling penting setiap hari</p>
+    </div>
+  </header>
+
+  <!-- DASHBOARD HARI INI -->
+  <section class="card">
+    <h2>Hari Ini</h2>
+
+    <div class="dashboard-grid">
+
+      <div class="dashboard-item">
+        <span class="label">Produktivitas</span>
+        <h3 id="productivityValue">0%</h3>
+      </div>
+
+      <div class="dashboard-item">
+        <span class="label">Tugas Aktif</span>
+        <h3 id="activeTaskCount">0</h3>
+      </div>
+
+      <div class="dashboard-item">
+        <span class="label">Selesai</span>
+        <h3 id="completedTaskCount">0</h3>
+      </div>
+
+      <div class="dashboard-item">
+        <span class="label">Streak</span>
+        <h3 id="streakCount">0</h3>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- KONDISI HARIAN -->
+  <section class="card">
+    <h2>Kondisi Hari Ini</h2>
+
+    <label>Energi</label>
+
+    <select id="energy">
+      <option value="tinggi">🔥 Tinggi</option>
+      <option value="sedang">⚡ Sedang</option>
+      <option value="rendah">🌙 Rendah</option>
+    </select>
+
+    <label>Waktu Tersedia</label>
+
+    <select id="availableTime">
+      <option value="2">2 Jam</option>
+      <option value="4">4 Jam</option>
+      <option value="8">8 Jam</option>
+      <option value="full">Full Day</option>
+    </select>
+
+    <label>Fokus Hari Ini</label>
+
+    <select id="dailyFocus">
+      <option value="bisnis">💰 Bisnis</option>
+      <option value="ibadah">🕌 Ibadah</option>
+      <option value="keluarga">👨‍👩‍👧‍👦 Keluarga</option>
+      <option value="kesehatan">❤️ Kesehatan</option>
+      <option value="campuran">🎯 Campuran</option>
+    </select>
+
+    <button onclick="saveCondition()">
+      Simpan Kondisi
+    </button>
+
+  </section>
+
+  <!-- PRIORITAS -->
+  <section class="card">
+    <h2>🔥 Kerjakan Sekarang</h2>
+
+    <div id="topPriorities">
+      <p>Belum ada prioritas.</p>
+    </div>
+  </section>
+
+  <!-- RUTINITAS -->
+  <section class="card">
+    <h2>🕌 Rutinitas Harian</h2>
+
+    <div id="routineContainer"></div>
+  </section>
+
+  <!-- TAMBAH TUGAS -->
+  <section class="card">
+    <h2>➕ Tambah Kegiatan</h2>
+
+    <input
+      type="text"
+      id="taskName"
+      placeholder="Contoh: Follow up 20 calon pembeli"
+    >
+
+    <label>Kategori</label>
+
+    <select id="taskCategory">
+      <option value="bisnis">Bisnis</option>
+      <option value="ibadah">Ibadah</option>
+      <option value="keluarga">Keluarga</option>
+      <option value="kesehatan">Kesehatan</option>
+      <option value="pengembangan">Pengembangan Diri</option>
+    </select>
+
+    <label>Dampak</label>
+
+    <select id="taskImpact">
+      <option value="5">Sangat Tinggi</option>
+      <option value="4">Tinggi</option>
+      <option value="3">Sedang</option>
+      <option value="2">Rendah</option>
+      <option value="1">Sangat Rendah</option>
+    </select>
+
+    <label>Deadline</label>
+
+    <select id="taskDeadline">
+      <option value="5">Hari Ini</option>
+      <option value="4">Besok</option>
+      <option value="3">Minggu Ini</option>
+      <option value="1">Tidak Mendesak</option>
+    </select>
+
+    <button onclick="addTask()">
+      Tambah Kegiatan
+    </button>
+
+  </section>
+
+  <!-- DAFTAR TUGAS -->
+  <section class="card">
+    <h2>📋 Semua Kegiatan</h2>
+
+    <div id="taskContainer"></div>
+  </section>
+
+  <!-- TARGET -->
+  <section class="card">
+    <h2>🎯 Target Bulanan</h2>
+
+    <div class="target-grid">
+
+      <div class="target-card">
+        <h3>Penjualan</h3>
+        <p id="salesTarget">0 / 0</p>
+      </div>
+
+      <div class="target-card">
+        <h3>Tabungan</h3>
+        <p id="savingTarget">Rp0</p>
+      </div>
+
+      <div class="target-card">
+        <h3>Tilawah</h3>
+        <p id="tilawahTarget">0%</p>
+      </div>
+
+      <div class="target-card">
+        <h3>English</h3>
+        <p id="englishTarget">0%</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <small>
+      Jadwal Pintar V2 © 2026
+    </small>
+  </footer>
+
+  <script src="js/storage.js"></script>
+  <script src="js/routines.js"></script>
+  <script src="js/priorities.js"></script>
+  <script src="js/app.js"></script>
+
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./service-worker.js");
+      });
+    }
+  </script>
+
+</body>
+</html>
